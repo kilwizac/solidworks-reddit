@@ -1,0 +1,10 @@
+{
+    "dotnet.defaultSolution": "ChatterSolidworks.csproj",
+    "omnisharp.enableRoslynAnalyzers": true,
+    "omnisharp.enableEditorConfigSupport": true,
+    "editor.formatOnSave": true,
+    "files.exclude": {
+        "**/bin": true,
+        "**/obj": true
+    }
+}

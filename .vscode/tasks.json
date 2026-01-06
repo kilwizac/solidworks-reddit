@@ -1,0 +1,67 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build",
+            "type": "shell",
+            "command": "dotnet",
+            "args": ["build", "-c", "Debug"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Build Release",
+            "type": "shell",
+            "command": "dotnet",
+            "args": ["build", "-c", "Release"],
+            "group": "build",
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Clean",
+            "type": "shell",
+            "command": "dotnet",
+            "args": ["clean"],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Register (Run as Admin)",
+            "type": "shell",
+            "command": "${workspaceFolder}\\register.bat",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Unregister (Run as Admin)",
+            "type": "shell",
+            "command": "${workspaceFolder}\\unregister.bat",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Reinstall (Run as Admin)",
+            "type": "shell",
+            "command": "${workspaceFolder}\\reinstall.bat",
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        }
+    ]
+}

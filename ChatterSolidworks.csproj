@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <EnableComHosting>true</EnableComHosting>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <RootNamespace>ChatterSolidworks</RootNamespace>
+    <AssemblyName>ChatterSolidworks</AssemblyName>
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- SolidWorks installation path - can be overridden via environment variable or /p:SolidWorksPath="..." -->
+    <SolidWorksPath Condition="'$(SolidWorksPath)' == ''">$(SOLIDWORKS_INSTALL_PATH)</SolidWorksPath>
+    <SolidWorksPath Condition="'$(SolidWorksPath)' == ''">C:\Program Files\SOLIDWORKS Corp\SOLIDWORKS</SolidWorksPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- SolidWorks API References -->
+    <Reference Include="SolidWorks.Interop.sldworks">
+      <HintPath>$(SolidWorksPath)\api\redist\SolidWorks.Interop.sldworks.dll</HintPath>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="SolidWorks.Interop.swconst">
+      <HintPath>$(SolidWorksPath)\api\redist\SolidWorks.Interop.swconst.dll</HintPath>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="SolidWorks.Interop.swpublished">
+      <HintPath>$(SolidWorksPath)\api\redist\SolidWorks.Interop.swpublished.dll</HintPath>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- WebView2 for embedded browser -->
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2592.51" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- WinForms for TaskPane UserControl -->
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Drawing" />
+  </ItemGroup>
+
+</Project>
