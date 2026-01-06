@@ -33,19 +33,19 @@ namespace ChatterSolidworks
         [ComRegisterFunction]
         public static void RegisterFunction(Type t)
         {
-            try
-            {
-                var keyPath = @"SOFTWARE\SolidWorks\AddIns\{" + t.GUID.ToString() + "}";
+            var keyPath = @"SOFTWARE\SolidWorks\AddIns\{" + t.GUID.ToString() + "}";
 
-                using var key = Microsoft.Win32.Registry.LocalMachine.CreateSubKey(keyPath);
-                key?.SetValue(null, 0); // 0 = Not loaded at startup, 1 = Loaded at startup
-                key?.SetValue("Title", "Chatter Reddit");
-                key?.SetValue("Description", "Reddit browser for SolidWorks");
-            }
-            catch (Exception ex)
+            using var key = Microsoft.Win32.Registry.LocalMachine.CreateSubKey(keyPath);
+            if (key == null)
             {
-                Console.WriteLine($"Error registering add-in: {ex.Message}");
+                throw new InvalidOperationException(
+                    $"Failed to create registry key: HKLM\\{keyPath}. " +
+                    "Make sure you are running as Administrator.");
             }
+
+            key.SetValue(null, 1); // 1 = Loaded at startup
+            key.SetValue("Title", "Chatter Reddit");
+            key.SetValue("Description", "Reddit browser for SolidWorks");
         }
 
         [ComUnregisterFunction]
