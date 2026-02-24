@@ -48,8 +48,12 @@ namespace ChatterSolidworks.Controls
         {
             base.OnHandleCreated(e);
 
-            // Start async initialization - store task to track completion
-            _initTask = InitializeWebViewAsync();
+            // Handle recreation can happen in WinForms, so avoid duplicate initialization.
+            if (_initTask == null)
+            {
+                // Start async initialization - store task to track completion
+                _initTask = InitializeWebViewAsync();
+            }
         }
 
         private async Task InitializeWebViewAsync()
@@ -142,6 +146,8 @@ namespace ChatterSolidworks.Controls
 
         private void ShowWebView2MissingMessage()
         {
+            this.Controls.Clear();
+
             var label = new Label
             {
                 Text = "WebView2 Runtime is not installed.\n\n" +
@@ -156,6 +162,8 @@ namespace ChatterSolidworks.Controls
 
         private void ShowErrorMessage(string message)
         {
+            this.Controls.Clear();
+
             var label = new Label
             {
                 Text = message,
@@ -172,9 +180,15 @@ namespace ChatterSolidworks.Controls
         /// </summary>
         public void Navigate(string url)
         {
+            if (!Uri.TryCreate(url, UriKind.Absolute, out var uri) ||
+                (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
+            {
+                throw new ArgumentException("Navigation URL must be a valid HTTP or HTTPS URL.", nameof(url));
+            }
+
             if (_webView?.CoreWebView2 != null && _isInitialized)
             {
-                _webView.CoreWebView2.Navigate(url);
+                _webView.CoreWebView2.Navigate(uri.AbsoluteUri);
             }
         }
 
